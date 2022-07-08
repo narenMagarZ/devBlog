@@ -1,7 +1,8 @@
 import app from './app'
-function BuildServer(port){
+import Logger from './utils/logger'
+function BuildServer(port:number | string){
     app.listen(port,()=>{
-
+        Logger.success(`API server listening to port ${port}`)
     })
 }
 const PORT = process.env.PORT || 5000 

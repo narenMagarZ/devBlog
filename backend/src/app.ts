@@ -1,4 +1,4 @@
-import express,{json,urlencoded} from 'express'
+import express,{json,NextFunction,urlencoded,Request,Response} from 'express'
 import cors from 'cors'
 
 
@@ -8,8 +8,7 @@ function BuildApp(){
     app.use(urlencoded({extended:true}))
     app.use(cors())
     app.set('trust proxy',1)
-    app.use((err,req,res,next)=>{
-        // this is for err routes
+    app.use((err:Error,req:Request,res:Response,next:NextFunction)=>{
         next()
     })
     return app
