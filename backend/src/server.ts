@@ -2,6 +2,7 @@ import app from './app'
 import Logger from './utils/logger'
 import * as db from './db/mongo/mongo'
 import * as redisClient from './db/redis/redis'
+
 async function BootServer(port:number | string){
     try {
         Logger.info(`Connecting to the database ${process.env.DB_NAME}`)
@@ -13,7 +14,7 @@ async function BootServer(port:number | string){
         if(redisClient.isConnected()){
             Logger.success('Connected to the redis')
         }
-        
+
     } catch (error:any) {
         Logger.error('Failed to boot the server')
         Logger.error(error)
