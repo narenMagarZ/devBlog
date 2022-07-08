@@ -2,7 +2,7 @@ import {Db, MongoClient,MongoClientOptions} from 'mongodb'
 import Logger from '../../utils/logger'
 
 let db : Db
-export async function Connect():Promise<void> {
+export async function connect():Promise<void> {
     const {
         DB_USERNAME,
         DB_PASSWORD,
