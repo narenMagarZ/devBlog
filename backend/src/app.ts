@@ -2,7 +2,7 @@ import express,{json,NextFunction,urlencoded,Request,Response} from 'express'
 import cors from 'cors'
 import router from './api'
 
-function BuildApp(){
+function App(){
     const app = express()
     app.use(json())
     app.use(urlencoded({extended:true}))
@@ -14,4 +14,4 @@ function BuildApp(){
     })
     return app
 }
-export default BuildApp()
+export default App()
