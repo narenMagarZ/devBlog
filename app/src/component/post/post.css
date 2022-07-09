@@ -12,6 +12,7 @@
     width: 40%;
     border-radius: 8px;
     background-color: #ffffff;
+    flex-direction: column;
 }
 #cover-img-wrapper{
     border: var(--border);
@@ -53,4 +54,31 @@
     border: none;
     outline: none;
     margin: 0 10px ;
+}
+#blog-title-wrapper{
+    border: var(--border);
+    padding: 20px;
+    position: relative;
+}
+
+#title-field{
+    outline: none;
+    font-size: 40px;
+    border: none;
+    background:transparent;
+    color: #333333;
+    font-weight: bold;
+    line-height: 55px;
+    word-wrap: break-word;
+
+
+}
+#title-placeholder{
+    position: fixed;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 55px;
+    color: #a0a0a0;
+    pointer-events: none;
+    
 }

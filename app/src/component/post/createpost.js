@@ -35,6 +35,7 @@ export default function CreatePost(){
             addCoverImgBtn.hidden = false
         }
     }
+
     return(
         <div className='create-post-wrapper'>
             <div className='new-post-space'>
@@ -47,6 +48,43 @@ export default function CreatePost(){
                         <button onClick={RemoveCoverImg} >Remove</button>
                     </div>
                 </div>
+                <BlogTitleWrapper/>
+            </div>
+        </div>
+    )
+}
+
+function BlogTitleWrapper(){
+    const title = useRef('')
+    const isAllTitleContentSelected = useRef(false)
+    function ReadInput(e){
+        console.log(e.key)
+        
+        if(e.key.length === 1){
+            title.current += e.key
+        }
+        else if(e.key === 'Backspace'){
+            title.current = title.current.substring(0,title.current.length - 1)
+        }
+        if(isAllTitleContentSelected.current){
+            if(e.key === 'Backspace') title.current = ''
+        }
+        console.log(title)
+        if(title.current.length > 0){
+            const titlePlaceholder = document.getElementById('title-placeholder')
+            titlePlaceholder.innerHTML = ''
+        } else if(title.current.length === 0) {
+            const titlePlaceholder = document.getElementById('title-placeholder')
+            titlePlaceholder.innerHTML = 'New post title here...'
+        }
+    }
+    function ReadSelectContent(){
+        isAllTitleContentSelected.current = true
+    }
+    return (
+        <div id='blog-title-wrapper'>
+            <span id='title-placeholder'>New post title here...</span>
+            <div onSelect={ReadSelectContent} onKeyDown={ReadInput}  contentEditable='true' id='title-field'>
             </div>
         </div>
     )
