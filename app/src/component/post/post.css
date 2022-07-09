@@ -82,3 +82,23 @@
     pointer-events: none;
     
 }
+#tag-wrapper{
+    border: var(--border);
+    padding: 20px;
+    position: relative;
+
+}
+#tag-field-wrapper{
+    border: var(--border);
+    width: min-content;
+    height: auto;
+    position: absolute;
+
+}
+#tag-field{
+    border: none;
+    outline: none;
+    padding: 8px 0;
+    font-size: 20px;
+    width: 100%;
+}
