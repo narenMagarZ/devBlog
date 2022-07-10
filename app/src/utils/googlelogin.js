@@ -1,7 +1,18 @@
-
+import { baseApi } from "./baseurl"
 export default function GoogleLogin(){
     function handleCredentialResponse(res){
         console.log(res)
+        const loginObj = {
+            'client_id':res.clientId,
+            'credentials':res.credential
+        }
+        baseApi.post('/login',loginObj,{'headers':{
+            
+        }}).then(res=>{
+            console.log(res)
+        }).catch(err=>{
+            console.error(err)
+        })
     }
     function initGoogleApi(){
         const googleApiPlatformScript = document.createElement('script')
