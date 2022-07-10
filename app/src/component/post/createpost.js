@@ -8,7 +8,7 @@ export default function CreatePost(){
         const coverImgContent = URL.createObjectURL(this.files[0])
         const coverImg = document.getElementById('cover-img')
         coverImg.src = coverImgContent
-        coverImg.hidden = coverImg.hidden ? false : false
+        coverImg.hidden = false
         const addCoverImgBtn = document.getElementById('cover-img-picker-btn')
         const configureBtnWrapper = document.getElementById('cover-img-configure-wrapper')
         if(!isImgAlreadyPickedUp.current){
@@ -91,54 +91,84 @@ function BlogTitleWrapper(){
 }
 
 function Tag(){
-    const [tags,setTag] = useState([])
-    const inputText = useRef('')
-    const prevInputLen = useRef(0)
-    const lastTagPos = useRef(0)
-    const lastTagLen = useRef(0)
-    function AddTag({target}){
-        console.log(target.value)
-        const inputTag = target.value
-        const isLastValueSpace = inputTag[inputTag.length - 1]
-        if(isLastValueSpace === ' '){
-            // check if first letter is space
-            if(inputText.current.length === 0 && tags.length === 0){
-                target.value = ''
-            }
-            else {
-                // then add tags
-                inputText.current = inputTag.substring(lastTagPos.current,inputTag.length - 1)
-                if(tags.length <5){
-                    setTag((tag)=>[...tag,inputText.current])
-                    lastTagPos.current = inputTag.length
-                }   
-            }
-        } else {
-            inputText.current += inputTag
-        }
-
-        if(inputTag.length === 0){
-            setTag(()=>[])
-            inputText.current = ''
-            lastTagPos.current = 0
-        }
-        if(lastTagPos.current - 1 === inputTag.length && inputTag.length < prevInputLen.current){
-            console.log(tags.length,'this is tags.length')
-            const lastTag = tags[tags.length - 1]
-            console.log(lastTag,'this is lasttag')
-            console.log(lastTag)
-        }
-        prevInputLen.current = inputTag.length
-        console.log(lastTagPos.current,inputTag.length)
-
+    const tags = useRef([])
+    let tagEntered = useRef('')
+    const tapToRemovedTag = useRef(null)
+    const tagBg = ['#CADFF2','#B8EFDF','#F2CAF0','#D8E8C5','#BCD8EB','#EBDFBC','#E1CCED','#EDCCE4']
+    function random(){
+        return Math.floor(Math.random() * tagBg.length)
     }
+    function RemoveTag(ev){
+        tapToRemovedTag.current = ev.target.parentNode
+        console.log(tags.current)
+        if(tapToRemovedTag.current){
+            console.log(tapToRemovedTag.current)
+            const tagName = tapToRemovedTag.current.innerText.split('#')[1].split('×')[0].trim()
+            for(let i = 0 ; i < tags.current.length ; i ++){
+                if(tags.current[i] === tagName){
+                    tags.current.splice(i,1)
+                    break
+                } 
+            }
+            console.log(tags.current)
+            const tagField = document.getElementById('tag-field')
+            tagField.value = ''
+            if(tags.current.length > 0){
+                tagField.placeholder = 'Add another'
+            } else tagField.placeholder = 'Add up to 5 tags...'
+            document.getElementById('tag-space-wrapper').removeChild(tapToRemovedTag.current)
+        }
+    }
+    function CreateTag(ev){
+        if(ev.key.length === 1){
+            if(ev.key === ' ' && tags.current.length < 5){
+                let parseTag = tagEntered.current
+                const tagWrapper = document.getElementById('tag-field-wrapper')
+                const tag = document.createElement('div')
+                tag.id = 'tag-btn'
+                tag.style.background = tagBg[random()]
+                const cancelBtn = document.createElement('button')
+                cancelBtn.addEventListener('click',RemoveTag)
+                cancelBtn.id = 'cancel-btn'
+                const hashTag = document.createElement('span')
+                const tagName = document.createElement('span')
+                tagName.innerText = parseTag 
+                hashTag.innerText = '#'
+                cancelBtn.innerHTML = '×'
+                tag.appendChild(hashTag)
+                tag.appendChild(tagName)
+                tag.appendChild(cancelBtn)
+                tagWrapper.insertAdjacentElement('beforebegin',tag)
+                ev.target.value = ''
+                tagEntered.current = ''
+                tags.current = [...tags.current,parseTag]
+                // setTag((tag)=>{
+                //     tagEntered.current = ''
+                //     return [...tag,parseTag]
+                // })
+
+            } else if(tags.current.length === 5){
+                // const inputTag = ev.target.firstChild
+                // ev.target.removeChild(inputTag)  
+                ev.target.placeholder = ''               
+            }
+             else {
+                tagEntered.current += ev.key
+                console.log(tagEntered.current,'this is tag entered')
+            }
+        } else if(ev.key === 'Backspace'){
+            // tagEntered.current = tagEntered.current.substring(0,tagEntered.current - 1)
+        }
+    }
+
     useEffect(()=>{
         console.log(tags)
     },[tags])
     return(
-        <div id='tag-wrapper'>
-            <div id='tag-field-wrapper'></div>
-            <input onChange={AddTag} placeholder='Add up to 5 tags...' id='tag-field' />
+        <div id='tag-space-wrapper'>
+            <div id='tag-field-wrapper'>
+                <input id='tag-field' placeholder='Add up to 5 tags...' onKeyDown={CreateTag} />
+            </div>
         </div>
     )
 }

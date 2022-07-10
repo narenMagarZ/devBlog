@@ -82,23 +82,53 @@
     pointer-events: none;
     
 }
-#tag-wrapper{
+#tag-space-wrapper{
     border: var(--border);
     padding: 20px;
     position: relative;
+    display: flex;
+    align-items: center;
 
 }
 #tag-field-wrapper{
-    border: var(--border);
-    width: min-content;
+    width: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     height: auto;
-    position: absolute;
-
 }
 #tag-field{
     border: none;
     outline: none;
-    padding: 8px 0;
+    height: auto;
+    min-height: 24px;
     font-size: 20px;
     width: 100%;
+}
+#tag-btn > span{
+    margin: 0 2px;
+}
+#tag-cancel-btn{
+    border: none;
+    outline: none;
+    text-align: center;
+    font-size: 30px;
+    background-color: transparent;
+}
+#tag-btn{
+    padding: 4px;
+    display: flex;
+    border-radius: 4px;
+    align-items: center;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+#cancel-btn{
+    border: none;
+    outline: none;
+    font-size: 30px;
+    background-color: transparent;
+}
+#cancel-btn:hover{
+    color: #f33737;
 }
