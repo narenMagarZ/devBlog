@@ -50,6 +50,8 @@ export default function CreatePost(){
                 </div>
                 <BlogTitleWrapper/>
                 <Tag/>
+                <TextEditorFieldController />
+                <TextEditor/>
             </div>
         </div>
     )
@@ -158,6 +160,78 @@ function Tag(){
             <div id='tag-field-wrapper'>
                 <input id='tag-field' placeholder='Add up to 5 tags...' onKeyDown={CreateTag} />
             </div>
+        </div>
+    )
+}
+
+function TextEditorFieldController(){
+    const btnType = [
+        {'id':'bold','encloser':'****','context':'Bold','curPosHelper':2},
+        {'id':'italic','encloser':'__','context':'Italic','curPosHelper':1},
+        {'id':'link','encloser':'[](url)','context':'Link','curPosHelper':4},
+        {'id':'ordered list','encloser':'1. ','context':'Ordered list','curPosHelper':0},
+        {'id':'unordered list','encloser':'- ','context':'Unordered list','curPosHelper':0},
+        {'id':'heading','encloser':'## ','context':'Heading','curPosHelper':0},
+        {'id':'quote','encloser':'> ','context':'Quote','curPosHelper':0},
+        {'id':'code','encloser':'``','context':'Code','curPosHelper':1},
+        {'id':'upload image','encloser':'','context':'Upload image','curPosHelper':0}
+    ]
+
+    return(
+        <div className='text-editor-field-controller'>
+            <div id='editor-control-box'>
+                {
+                    btnType.map((btn,index)=>{
+                        return <ControllerButton key={index} curPosHelper={btn.curPosHelper} encloser={btn.encloser} context={btn.context} id={btn.id}></ControllerButton>
+                    })
+                }
+            </div>
+        </div>
+    )
+}
+
+function ControllerButton({id,encloser,context,curPosHelper}){
+    const icon = id[0].toUpperCase()
+    function ActivateControlAction(ev){
+        const textArea = document.getElementById('text-area')
+        textArea.value = textArea.value + encloser
+        textArea.selectionStart = textArea.value.length - curPosHelper
+        textArea.selectionEnd = textArea.value.length - curPosHelper
+        console.log(textArea.selectionStart)
+        textArea.focus()
+    }
+    function UnHideBtnDefiner(ev){
+        console.log(ev.target.previousElementSibling)
+        const controllerDefiner = ev.target.previousElementSibling
+        controllerDefiner.hidden = false
+    }
+    function HideBtnDefiner(ev){
+        console.log(ev.target.previousElementSibling)
+        const controllerDefiner = ev.target.previousElementSibling
+        controllerDefiner.hidden = true
+    }
+    return(
+        <div id='control-btn-wrapper'>
+            <span hidden id='control-btn-definer'>
+                {context}
+            </span>
+            <button id='control-btn' onMouseLeave={HideBtnDefiner} onMouseEnter={UnHideBtnDefiner} onClick={ActivateControlAction} >{icon}</button>
+        </div>
+    )
+}
+
+
+function TextEditor(){
+    function TrackInputKey(ev){
+        const startPos = ev.target.selectionStart
+        const endPos = ev.target.selectionEnd
+        console.log(startPos,endPos,'these are starpos and endpos')
+        
+
+    }
+    return(
+        <div className='text-editor-wrapper'>
+            <textarea onKeyDown={TrackInputKey} placeholder='write your post content here...' id='text-area'></textarea>
         </div>
     )
 }

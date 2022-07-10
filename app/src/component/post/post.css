@@ -13,9 +13,9 @@
     border-radius: 8px;
     background-color: #ffffff;
     flex-direction: column;
+    overflow: hidden;
 }
 #cover-img-wrapper{
-    border: var(--border);
     width: 100%;
     height: max-content;
     padding: 20px 20px;
@@ -33,6 +33,11 @@
 }
 
 #cover-img-configure-wrapper > button:first-child{
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    color: #ffffff;
+    background-color: #4dc98b;
 }
 #cover-img-configure-wrapper > button:last-child{
     border: 2px solid transparent;
@@ -47,6 +52,11 @@
 #cover-img-picker-btn{
     padding: 8px;
     font-size: 14px;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    color: #ffffff;
+    background-color: #4d91c9;
     letter-spacing: 0.5px;
 }
 #cover-img{
@@ -56,7 +66,6 @@
     margin: 0 10px ;
 }
 #blog-title-wrapper{
-    border: var(--border);
     padding: 20px;
     position: relative;
 }
@@ -83,7 +92,6 @@
     
 }
 #tag-space-wrapper{
-    border: var(--border);
     padding: 20px;
     position: relative;
     display: flex;
@@ -131,4 +139,63 @@
 }
 #cancel-btn:hover{
     color: #f33737;
+}
+
+.text-editor-field-controller{
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+}
+#editor-control-box{
+    padding:10px 4px;
+    background-color: #f5f8f8;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+}
+#control-btn{
+    margin: 0 4px;
+    text-align: center;
+    font-size: 20px;
+    padding: 4px 6px;
+    width: 40px;
+    margin-right: 4px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+#control-btn:hover{
+    background-color: #e5f0ef;
+    color: #72c7be;
+    border-radius: 6px;
+}
+.text-editor-wrapper{
+    height: 100%;
+}
+
+#text-area{
+    resize: none;
+    width: 100%;
+    padding: 20px;
+    height: 100%;
+    font-size: 18px;
+    line-height: 30px;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+}
+#control-btn-wrapper{
+    position: relative;
+}
+#control-btn-definer{
+    position: absolute;
+    color: #ffffff;
+    padding: 6px ;
+    bottom: -34px;
+    background-color: #3d3d3d;
+    border-radius: 4px;
+    font-size: 14px;
+    width: max-content;
 }
