@@ -100,7 +100,6 @@ function Tag(){
     }
     function RemoveTag(ev){
         tapToRemovedTag.current = ev.target.parentNode
-        console.log(tags.current)
         if(tapToRemovedTag.current){
             console.log(tapToRemovedTag.current)
             const tagName = tapToRemovedTag.current.innerText.split('#')[1].split('×')[0].trim()
@@ -110,7 +109,6 @@ function Tag(){
                     break
                 } 
             }
-            console.log(tags.current)
             const tagField = document.getElementById('tag-field')
             tagField.value = ''
             if(tags.current.length > 0){
@@ -142,23 +140,14 @@ function Tag(){
                 ev.target.value = ''
                 tagEntered.current = ''
                 tags.current = [...tags.current,parseTag]
-                // setTag((tag)=>{
-                //     tagEntered.current = ''
-                //     return [...tag,parseTag]
-                // })
 
-            } else if(tags.current.length === 5){
-                // const inputTag = ev.target.firstChild
-                // ev.target.removeChild(inputTag)  
+            } else if(tags.current.length === 5){ 
                 ev.target.placeholder = ''               
             }
              else {
                 tagEntered.current += ev.key
-                console.log(tagEntered.current,'this is tag entered')
             }
-        } else if(ev.key === 'Backspace'){
-            // tagEntered.current = tagEntered.current.substring(0,tagEntered.current - 1)
-        }
+        } 
     }
 
     useEffect(()=>{
