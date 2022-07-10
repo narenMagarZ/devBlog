@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import './post.css'
 
 export default function CreatePost(){
+    useEffect(()=>{
+        document.title = "New Post-devBlog"
+    },[])
     let isImgAlreadyPickedUp = useRef(false)
     function PickCoverImage(){
         this.removeEventListener('change',PickCoverImage)
@@ -53,6 +56,7 @@ export default function CreatePost(){
                 <TextEditorFieldController />
                 <TextEditor/>
             </div>
+            <PublishPost/>
         </div>
     )
 }
@@ -173,7 +177,7 @@ function TextEditorFieldController(){
         {'id':'unordered list','encloser':'- ','context':'Unordered list','curPosHelper':0},
         {'id':'heading','encloser':'## ','context':'Heading','curPosHelper':0},
         {'id':'quote','encloser':'> ','context':'Quote','curPosHelper':0},
-        {'id':'code','encloser':'``','context':'Code','curPosHelper':1},
+        {'id':'< >','encloser':'``','context':'Code','curPosHelper':1},
         {'id':'upload image','encloser':'','context':'Upload image','curPosHelper':0}
     ]
 
@@ -191,12 +195,15 @@ function TextEditorFieldController(){
 }
 
 function ControllerButton({id,encloser,context,curPosHelper}){
-    const icon = id[0].toUpperCase()
+
+    const icon =  id !== '< >' ?  id[0].toUpperCase() : "< >"
     function ActivateControlAction(ev){
         const textArea = document.getElementById('text-area')
         textArea.value = textArea.value + encloser
         textArea.selectionStart = textArea.value.length - curPosHelper
-        textArea.selectionEnd = textArea.value.length - curPosHelper
+        if(id === 'link'){
+        textArea.selectionEnd = textArea.value.length - 1
+        } else textArea.selectionEnd = textArea.value.length - curPosHelper
         console.log(textArea.selectionStart)
         textArea.focus()
     }
@@ -226,12 +233,22 @@ function TextEditor(){
         const startPos = ev.target.selectionStart
         const endPos = ev.target.selectionEnd
         console.log(startPos,endPos,'these are starpos and endpos')
-        
+        if(ev.key === 'Enter'){
+            console.log('you just enterd enter')
+        }
 
     }
     return(
         <div className='text-editor-wrapper'>
             <textarea onKeyDown={TrackInputKey} placeholder='write your post content here...' id='text-area'></textarea>
+        </div>
+    )
+}
+
+function PublishPost(){
+    return(
+        <div className='publish-post-btn-wrapper'>
+            <button id='publish-btn'>Publish</button>
         </div>
     )
 }

@@ -4,12 +4,15 @@
     width: 100%;
     padding:40px 10px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
 }
 .new-post-space{
     border: 2px solid #dfdfdf;
     display: flex;
     width: 40%;
+    height: 100%;
     border-radius: 8px;
     background-color: #ffffff;
     flex-direction: column;
@@ -198,4 +201,21 @@
     border-radius: 4px;
     font-size: 14px;
     width: max-content;
+}
+.publish-post-btn-wrapper{
+    margin: 20px 0;
+    width: 40%;
+}
+#publish-btn{
+    background-color: #3576ee;
+    padding: 10px 14px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    border-radius: 4px;
+    color: #ffffff;
+}
+
+#publish-btn:hover{
+    background-color: #2055b8;
 }
