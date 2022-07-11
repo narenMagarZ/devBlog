@@ -23,8 +23,8 @@ export async function connect():Promise<void> {
     try {
         await mongoClient.connect()
         db = mongoClient.db(DB_NAME)
-        const ans = db.collection('users')
-        console.log(await ans.findOne({'gmail':'naren@gmail.com'}))
+        // const ans = db.collection('users')
+        // console.log(await ans.findOne({'gmail':'naren@gmail.com'}))
         
     } catch (error:any) {
         Logger.error(error.message)

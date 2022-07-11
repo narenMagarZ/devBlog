@@ -22,6 +22,7 @@
     "@types/uuid": "^8.3.4",
     "@types/winston": "^2.4.4",
     "bcrypt": "^5.0.1",
+    "bullmq": "^1.86.5",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
