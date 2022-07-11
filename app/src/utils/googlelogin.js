@@ -6,7 +6,7 @@ export default function GoogleLogin(){
             'client_id':res.clientId,
             'credentials':res.credential
         }
-        baseApi.post('/login',loginObj,{'headers':{
+        baseApi.post('/one-tap-login',loginObj,{'headers':{
             
         }}).then(res=>{
             console.log(res)
