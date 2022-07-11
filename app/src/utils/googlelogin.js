@@ -3,8 +3,8 @@ export default function GoogleLogin(){
     function handleCredentialResponse(res){
         console.log(res)
         const loginObj = {
-            'client_id':res.clientId,
-            'credentials':res.credential
+            'clientId':res.clientId,
+            'credential':res.credential
         }
         baseApi.post('/one-tap-login',loginObj,{'headers':{
             
