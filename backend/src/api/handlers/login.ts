@@ -5,6 +5,7 @@ import joi from "joi";
 import {OAuth2Client} from 'google-auth-library'
 export default async function Login(req:DevBlogType.Request,res:Response,next:NextFunction){
     const {clientId,credential} = req.body
+    console.log(clientId,credential)
     // await getDB().createCollection('testusers')
     // 278447342299-h9kf3018umacfckqjmhdrd31abpfm26a.apps.googleusercontent.com
     const loginInfoSchema = joi.object({
@@ -12,6 +13,7 @@ export default async function Login(req:DevBlogType.Request,res:Response,next:Ne
         credential:joi.string().required()
     }).with('clientId','credential')
     const loginInfo = loginInfoSchema.validate({clientId,credential})
+    console.log(loginInfo)
     if(!loginInfo.error){
         const client = new OAuth2Client(clientId)
         async function Verify(){
