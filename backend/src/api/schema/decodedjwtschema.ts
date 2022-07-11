@@ -46,5 +46,5 @@ export const decodedJwtSchema = joi.object({
 
     email_verified:joi
     .boolean()
-    .equal(false)
+    .equal(true)
 })

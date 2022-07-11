@@ -6,7 +6,7 @@ export async function AddUserToDB(user:DevBlogType.user):Promise<void>{
     try{
         const userCollection = db.getDB().collection('user')
         await userCollection.insertOne(user)
-        await getRedisConnection()?.hset('users',user.email,user.uid)
+        await getRedisConnection()?.hset('user',user.email,user.uid)
         Logger.success('Success to write the user to db')
     }
     catch(err){

@@ -33,7 +33,7 @@ async function BootServer(port:number | string){
             Logger.error(err.message)
         })
         taskEvent.on('completed',({jobId,returnvalue,prev},id)=>{
-            console.log(jobId,returnvalue,prev,id)
+            Logger.success(`Task-id[${jobId}]: has been completed`)
         })
 
     } catch (error:any) {

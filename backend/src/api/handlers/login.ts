@@ -1,5 +1,4 @@
 import { NextFunction , Response } from "express";
-import * as db from "../../db/mongo/mongo";
 import DevBlogError from "../../utils/error";
 import joi from "joi";
 import {decode} from 'jsonwebtoken'
@@ -29,14 +28,12 @@ export default async function Login(req:DevBlogType.Request,res:Response,next:Ne
                 const {error,value} = decodedJwtSchema.validate(decodedJwt) 
                 if(!error){
                     const {email,picture,name} = value
-                    // first check the user existence in redis
                     const redisConnection = redis.getRedisConnection() as IORedis
                     const isEmailExist = await redisConnection.hget('users',email)
                     if(isEmailExist){
                         return new DevBlogResponse('you are logged in!')
                     } else {
-                        // then insert into the db
-                        const uid = uuidv4()
+                        const uid = uuidv4().split('-').join('')
                         const user : DevBlogType.user = {
                             email : email,
                             name : name,
@@ -46,7 +43,6 @@ export default async function Login(req:DevBlogType.Request,res:Response,next:Ne
                         AddTask('adduser',user)
                         res.end('done')
                     }
-                    // db.getDB().collection('users')
                     
                 } else {
                     Logger.info(error.message)
