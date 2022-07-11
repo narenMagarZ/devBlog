@@ -6,4 +6,11 @@ declare namespace DevBlogType {
         email:string,
         uid:string
     }
+
+    interface user{
+        name:string,
+        email:string,
+        profile:string,
+        uid:string
+    }
 }

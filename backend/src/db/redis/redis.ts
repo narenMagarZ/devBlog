@@ -15,8 +15,7 @@ export async function connect() : Promise<void> {
     }catch(err:any){
         Logger.info('Failed to connect to the redis. Exiting with status code 1.')
         Logger.error(err.message)
-        throw new Error(err)
-        // process.exit(1)
+        process.exit(1)
     }
 }
 
@@ -27,6 +26,6 @@ export const isConnected = () : boolean =>{
 
 
 export const getRedisConnection = () : IORedis | undefined => {
-    if(!redisConnection) return redisConnection
-    return undefined
+    if(!redisConnection) return undefined
+    return redisConnection
 }

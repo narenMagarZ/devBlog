@@ -2,8 +2,10 @@ import app from './app'
 import Logger from './utils/logger'
 import * as db from './db/mongo/mongo'
 import * as redisClient from './db/redis/redis'
-import {InitJobQueue} from './task'
+import { InitJobQueue} from './task/queue'
+import {InitWorker} from './task/worker'
 import type IORedis from 'ioredis'
+import {QueueEvents} from 'bullmq'
 async function BootServer(port:number | string){
     try {
         Logger.info(`Connecting to the database ${process.env.DB_NAME}`)
@@ -14,11 +16,25 @@ async function BootServer(port:number | string){
         await redisClient.connect()
         if(redisClient.isConnected()){
             Logger.success('Connected to the redis')
+
+            const redisConnection = redisClient.getRedisConnection() as IORedis
+            Logger.info('Initializing the task queue...')
+            InitJobQueue(redisConnection)
+            Logger.success('Success to initialize task queue')
+
+            Logger.info('Initializing the worker...')
+            await InitWorker(redisConnection)
+            Logger.success('Success to initialize worker')
         }
-        const redisConnection = redisClient.getRedisConnection() as IORedis
-        Logger.info('Initializing the task queue...')
-        InitJobQueue(redisConnection)
-        Logger.info('Success')
+        const {QUEUE_NAME} = process.env
+        const taskEvent = new QueueEvents(QUEUE_NAME as string)
+        taskEvent.on('error',(err)=>{
+            Logger.info(err.message)
+            Logger.error(err.message)
+        })
+        taskEvent.on('completed',({jobId,returnvalue,prev},id)=>{
+            console.log(jobId,returnvalue,prev,id)
+        })
 
     } catch (error:any) {
         Logger.error('Failed to boot the server')

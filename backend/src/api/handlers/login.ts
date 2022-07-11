@@ -8,6 +8,8 @@ import * as redis from '../../db/redis/redis'
 import type IORedis from "ioredis";
 import {DevBlogResponse} from "../../utils/devblogresponse";
 import Logger from "../../utils/logger";
+import {v4 as uuidv4} from 'uuid'
+import { AddTask} from "../../task/queue";
 export default async function Login(req:DevBlogType.Request,res:Response,next:NextFunction){
     const {clientId,credential} = req.body
     const loginInfoSchema = joi.object({
@@ -26,7 +28,7 @@ export default async function Login(req:DevBlogType.Request,res:Response,next:Ne
             const decodedJwt  = decode(credential) 
                 const {error,value} = decodedJwtSchema.validate(decodedJwt) 
                 if(!error){
-                    const {email} = value
+                    const {email,picture,name} = value
                     // first check the user existence in redis
                     const redisConnection = redis.getRedisConnection() as IORedis
                     const isEmailExist = await redisConnection.hget('users',email)
@@ -34,7 +36,14 @@ export default async function Login(req:DevBlogType.Request,res:Response,next:Ne
                         return new DevBlogResponse('you are logged in!')
                     } else {
                         // then insert into the db
-                        
+                        const uid = uuidv4()
+                        const user : DevBlogType.user = {
+                            email : email,
+                            name : name,
+                            profile : picture,
+                            uid : uid
+                        }
+                        AddTask('adduser',user)
                         res.end('done')
                     }
                     // db.getDB().collection('users')
