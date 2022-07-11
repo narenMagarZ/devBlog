@@ -1,7 +1,7 @@
 
 type expressRequest = import('express').Request
 
-declare namespace BlogType {
+declare namespace DevBlogType {
     interface Request extends expressRequest {
         email:string,
         uid:string

@@ -2,8 +2,7 @@ import express from 'express'
 import { handler } from './handlers'
 
 const router = express.Router()
-const {Login,Signup} = handler
-router.post('/login',Login)
-router.post('/signup',Signup)
+const {Login} = handler
+router.post('/one-tap-login',Login)
 
 export default router

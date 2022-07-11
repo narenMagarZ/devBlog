@@ -15,7 +15,8 @@ export async function connect() : Promise<void> {
     }catch(err:any){
         Logger.info('Failed to connect to the redis. Exiting with status code 1.')
         Logger.error(err.message)
-        process.exit(1)
+        throw new Error(err)
+        // process.exit(1)
     }
 }
 

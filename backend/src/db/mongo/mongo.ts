@@ -9,7 +9,6 @@ export async function connect():Promise<void> {
         DB_NAME,
         DB_URI
     } = process.env
-    console.log(DB_NAME)
     if(!DB_NAME){
         throw new Error('No database configuration is provided')
     }

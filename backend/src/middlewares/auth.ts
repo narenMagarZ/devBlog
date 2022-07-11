@@ -2,7 +2,7 @@
 import {Response , NextFunction} from 'express'
 import { VerifyJwt } from '../utils/verifyjwt'
 
-export function AuthenticateRequest(req:BlogType.Request,_res:Response,next:NextFunction){
+export function AuthenticateRequest(req:DevBlogType.Request,_res:Response,next:NextFunction){
     const authenticatedRoutes = ['/profile','/blog'] 
     const exactReqUrl = req.url.split('/api')[1] 
     const token = req.signedCookies.token as string
