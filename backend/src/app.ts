@@ -9,7 +9,11 @@ function App(){
     app.use(json())
     app.use(urlencoded({extended:true}))
     app.set('trust proxy',1)
-    app.use(cors())
+    app.use(cors({
+        'credentials':true,
+        'origin':'http://localhost:3000',
+        'methods':['put','delete','post','get']
+    }))
     app.use(cookieParser(process.env.COOKIE_SECRET as string))
     const {AuthenticateRequest} = middleware
     app.use(AuthenticateRequest)
