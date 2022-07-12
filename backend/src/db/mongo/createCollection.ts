@@ -14,7 +14,7 @@ dbCollection.creatUser = async function(){
         'validator':{
             $jsonSchema:{
                 "bsonType":'object',
-                'required':['name','email','createdAt'],
+                'required':['name','email','createdAt','uid','profile'],
                 "properties":{
                     "name" :{
                         "bsonType":"string"
@@ -22,8 +22,37 @@ dbCollection.creatUser = async function(){
                     "email":{
                         "bsonType":"string"
                     },
+                    "uid":{
+                        "bsonType":"string"
+                    },
                     "createdAt":{
                         "bsonType":"string",
+                    },
+                    "favourite":{
+                        "bsonType":'array',
+                        'uniqueItems' :true,
+                        'items':{
+                            'bsonType':'string'
+                        }
+                    },
+                    "bio" : {
+                        "bsonType":'string'
+                    },
+                    "profile" : {
+                        'bsonType' : 'string'
+                    },
+                    "resumeLink" : {
+                        'bsonType' : 'string'
+                    },
+                    "portfolioLink" : {
+                        'bsonType' : 'string'
+                    },
+                    "articlesCreated" : {
+                        'bsonType' : 'number',
+                        'minimum' : 0
+                    },
+                    "default":{
+                        'bio' : 'test bio'
                     }
                 }
             }
