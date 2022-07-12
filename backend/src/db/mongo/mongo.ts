@@ -2,6 +2,7 @@ import {Db, MongoClient,MongoClientOptions} from 'mongodb'
 import Logger from '../../utils/logger'
 
 let db : Db
+let connected = false
 export async function connect():Promise<void> {
     const {
         DB_USERNAME,
@@ -23,6 +24,7 @@ export async function connect():Promise<void> {
     try {
         await mongoClient.connect()
         db = mongoClient.db(DB_NAME)
+        connected = true
         // const ans = db.collection('users')
         // console.log(await ans.findOne({'gmail':'naren@gmail.com'}))
         
@@ -37,5 +39,5 @@ export async function connect():Promise<void> {
 }
 
 export const getDB = ():Db => db
-
+export const isDBConnected = ()=> connected
 // db uri = mongodb://[username:password]localhost:27017/dbname

@@ -1,6 +1,6 @@
 import type IORedis from 'ioredis'
 import {Job,Worker} from 'bullmq'
-import {AddUserToDB} from './addusertask'
+import {AddUserToDB} from './task_adduser'
 let worker : Worker
 
 const {QUEUE_NAME} = process.env

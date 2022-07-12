@@ -9,6 +9,7 @@ import {DevBlogResponse} from "../../utils/devblogresponse";
 import Logger from "../../utils/logger";
 import {v4 as uuidv4} from 'uuid'
 import { AddTask} from "../../task/queue";
+import { CreateCookie, SetCookie } from "../../utils/createcookie";
 export default async function Login(req:DevBlogType.Request,res:Response,next:NextFunction){
     const {clientId,credential} = req.body
     const loginInfoSchema = joi.object({
@@ -29,9 +30,12 @@ export default async function Login(req:DevBlogType.Request,res:Response,next:Ne
                 if(!error){
                     const {email,picture,name} = value
                     const redisConnection = redis.getRedisConnection() as IORedis
-                    const isEmailExist = await redisConnection.hget('users',email)
-                    if(isEmailExist){
-                        return new DevBlogResponse('you are logged in!')
+                    const exposedUID = await redisConnection.hget('users',email)
+                    let cookieContent
+                    if(exposedUID){
+                        cookieContent = {
+                            'uid':exposedUID,email
+                        }
                     } else {
                         const uid = uuidv4().split('-').join('')
                         const user : DevBlogType.user = {
@@ -41,8 +45,14 @@ export default async function Login(req:DevBlogType.Request,res:Response,next:Ne
                             uid : uid
                         }
                         AddTask('adduser',user)
-                        res.end('done')
+                        cookieContent = {
+                            uid,email
+                        }
                     }
+                    const {cookieName,cookie,cookieOption} = SetCookie(cookieContent)
+                    res.cookie(cookieName,cookie,cookieOption)
+                    Logger.success(`[${email}] is logged in`)
+                    return res.end('you are logged in!')
                     
                 } else {
                     Logger.info(error.message)

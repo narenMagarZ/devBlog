@@ -6,12 +6,14 @@ import { InitJobQueue} from './task/queue'
 import {InitWorker} from './task/worker'
 import type IORedis from 'ioredis'
 import {QueueEvents} from 'bullmq'
+import {dbCollection} from './db/mongo/createCollection'
 async function BootServer(port:number | string){
     try {
         Logger.info(`Connecting to the database ${process.env.DB_NAME}`)
         await db.connect()
         Logger.success('Connected to the database')
-
+        if(db.isDBConnected())
+            dbCollection.creatUser()
         Logger.info('Connecting to the redis')
         await redisClient.connect()
         if(redisClient.isConnected()){
@@ -32,7 +34,7 @@ async function BootServer(port:number | string){
             Logger.info(err.message)
             Logger.error(err.message)
         })
-        taskEvent.on('completed',({jobId,returnvalue,prev},id)=>{
+        taskEvent.on('completed',({jobId,returnvalue},_id)=>{
             Logger.success(`Task-id[${jobId}]: has been completed`)
         })
 
