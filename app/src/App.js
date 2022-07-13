@@ -6,7 +6,7 @@ import CreatePost from './component/post/createpost';
 function App() {
   return (
     <div className="app">
-      <GoogleLogin />
+      {/* <GoogleLogin /> */}
       <Router>
         <Routes>
         <Route path='/' element={<Home/>}></Route>
