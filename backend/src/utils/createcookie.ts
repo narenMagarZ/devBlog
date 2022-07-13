@@ -16,5 +16,6 @@ export function CreateCookie(cookieContent:{uid:string,email:string}){
 export function SetCookie(cookieContent:{uid:string,email:string}){
     const {cookie,cookieOption} = CreateCookie(cookieContent)
     const cookieName = process.env.COOKIE_NAME as string
+    console.log(cookie,cookieName,cookieOption)
     return {cookie,cookieName,cookieOption}
 }

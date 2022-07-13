@@ -1,10 +1,5 @@
-import {Schema,Model} from 'mongoose'
-import * as db from './mongo'
+import {Schema} from 'mongoose'
 
 
-export function Tag():Model<any>{
     const tagSchema = new Schema({
     })
-    const tag = db.getDB().model('tag',tagSchema)
-    return tag
-}

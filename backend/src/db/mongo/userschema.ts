@@ -1,5 +1,4 @@
 import {Schema} from 'mongoose'
-import * as db from './mongo'
   export  const userSchema = new Schema({
         'name' : {
             type:String,
@@ -39,4 +38,3 @@ import * as db from './mongo'
             }]
         }
     })
-    // export const User = db.getDB().model('user',userSchema)

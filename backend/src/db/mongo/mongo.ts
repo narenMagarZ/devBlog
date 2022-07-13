@@ -31,4 +31,3 @@ export async function connect():Promise<void> {
 export const getDB = () => db
 export const getUser = ()=> user
 export const isDBConnected = ()=> connected
-// db uri = mongodb://[username:password]localhost:27017/dbname

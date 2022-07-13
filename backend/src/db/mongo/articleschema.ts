@@ -1,9 +1,7 @@
-import {Schema,Model} from 'mongoose'
-import * as db from './mongo'
+import {Schema} from 'mongoose'
 
 
-export function Article():Model<any> {
-    const articleSchema = new Schema({
+export const articleSchema = new Schema({
         'title' : {
             type : String,
             required : true
@@ -25,7 +23,4 @@ export function Article():Model<any> {
             default : 0
         }
     })
-    const article = db.getDB().model('article',articleSchema)
-    return article
-}
 
