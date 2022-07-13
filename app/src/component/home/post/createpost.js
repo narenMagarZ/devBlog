@@ -1,6 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
+import { baseApi } from '../../../utils/baseurl'
 import './post.css'
 
+
+let postContent = {
+    'title' : '',
+    'tags' : [],
+    'content' : '',
+    'coverimg' : null,
+    'links' : [],
+    'embeddedimg' : ['im1','im2']
+}
 export default function CreatePost(){
     useEffect(()=>{
         document.title = "New Post-devBlog"
@@ -8,6 +18,7 @@ export default function CreatePost(){
     let isImgAlreadyPickedUp = useRef(false)
     function PickCoverImage(){
         this.removeEventListener('change',PickCoverImage)
+        postContent = {...postContent,'coverimg' : this.files[0]}
         const coverImgContent = URL.createObjectURL(this.files[0])
         const coverImg = document.getElementById('cover-img')
         coverImg.src = coverImgContent
@@ -85,6 +96,7 @@ function BlogTitleWrapper(){
             const titlePlaceholder = document.getElementById('title-placeholder')
             titlePlaceholder.innerHTML = ''
         }
+        postContent = {...postContent,'title' : title.current}
     }
 
     return (
@@ -113,7 +125,8 @@ function Tag(){
                 if(tags.current[i] === tagName){
                     tags.current.splice(i,1)
                     break
-                } 
+                }
+            postContent = {...postContent,'tags' : tags.current} 
             }
             const tagField = document.getElementById('tag-field')
             tagField.value = ''
@@ -146,6 +159,7 @@ function Tag(){
                 ev.target.value = ''
                 tagEntered.current = ''
                 tags.current = [...tags.current,parseTag]
+                postContent = {...postContent,'tags' : tags.current}
 
             } else if(tags.current.length === 5){ 
                 ev.target.placeholder = ''               
@@ -158,6 +172,7 @@ function Tag(){
 
     useEffect(()=>{
         console.log(tags)
+
     },[tags])
     return(
         <div id='tag-space-wrapper'>
@@ -236,6 +251,8 @@ function TextEditor(){
         if(ev.key === 'Enter'){
             console.log('you just enterd enter')
         }
+        console.log(ev.target.value)
+        postContent = {...postContent,'content' : ev.target.value}
 
     }
     return(
@@ -246,9 +263,35 @@ function TextEditor(){
 }
 
 function PublishPost(){
+    function PushPost(ev){
+        console.log(postContent)
+        const formData = new FormData()
+        for(let key in postContent){
+            switch(key){
+                case 'coverimg':
+                    formData.append('coverimg',postContent[key])
+                    break;
+                case "embeddedimg":
+                    for(let img of postContent[key]){
+                        console.log(img)
+                        formData.append('embeddedimg',img)
+                    }
+                    break;
+                default:
+                    formData.append('body',postContent[key])
+                    break;
+
+            }
+        }
+        baseApi.post('/new',formData).then(res=>{
+            console.log(res)
+        }).catch(err=>{
+            console.error(err)
+        })
+    }
     return(
         <div className='publish-post-btn-wrapper'>
-            <button id='publish-btn'>Publish</button>
+            <button onClick={PushPost} id='publish-btn'>Publish</button>
         </div>
     )
 }

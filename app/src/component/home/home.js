@@ -6,11 +6,9 @@ export default function Home(){
     const [isUser,setUser] = useState(null)
     useEffect(()=>{
         baseApi.get('/').then(res=>{
-            console.log(res.headers)
-            const {isauthenticated} = res.headers
-            console.log(isauthenticated)
-            if(typeof isauthenticated !== 'undefined')
+            if(res.data === 'done')
                 setUser(()=>true)
+            else setUser(()=>false)
 
         }).catch(err=>{
             console.error(err)
