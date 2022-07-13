@@ -1,18 +1,22 @@
 
 import {Response , NextFunction} from 'express'
 import { VerifyJwt } from '../utils/verifyjwt'
-
-export function AuthenticateRequest(req:DevBlogType.Request,_res:Response,next:NextFunction){
+import {JsonWebTokenError} from 'jsonwebtoken'
+import {DevBlogResponse, HandleResponse} from '../utils/devblogresponse'
+export async function AuthenticateRequest(req:DevBlogType.Request,res:Response,next:NextFunction){
     const authenticatedRoutes = ['/profile','/new'] 
     const exactReqUrl = req.url.split('/api')[1] 
-    const token = req.signedCookies.token as string
     if(authenticatedRoutes.includes(exactReqUrl)){
-        const jwtContent : any = VerifyJwt(token)
-        if(typeof jwtContent === 'object'){
-            req.uid = jwtContent.id
-            next()
-        } 
-        else if(typeof jwtContent === 'string') return next(new Error('unauthenticated user'))
+        const token = req.signedCookies.token as string
+        const jwtContent : any = await VerifyJwt(token)
+        if(jwtContent instanceof JsonWebTokenError){
+            const response = new DevBlogResponse
+            HandleResponse(response,res)
+        } else {
+            req.uid = jwtContent.uid
+            req.email = jwtContent.email
+            next(true)
+        }
         
     } 
     else next()
