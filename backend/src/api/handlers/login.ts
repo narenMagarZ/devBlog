@@ -5,11 +5,11 @@ import {decode} from 'jsonwebtoken'
 import {decodedJwtSchema} from '../schema/decodedjwtschema'
 import * as redis from '../../db/redis/redis'
 import type IORedis from "ioredis";
-import {DevBlogResponse} from "../../utils/devblogresponse";
+import {DevBlogResponse, HandleResponse} from "../../utils/devblogresponse";
 import Logger from "../../utils/logger";
 import {v4 as uuidv4} from 'uuid'
 import { AddTask} from "../../task/queue";
-import { CreateCookie, SetCookie } from "../../utils/createcookie";
+import { SetCookie } from "../../utils/createcookie";
 export default async function Login(req:DevBlogType.Request,res:Response,next:NextFunction){
     const {clientId,credential} = req.body
     const loginInfoSchema = joi.object({
@@ -34,7 +34,8 @@ export default async function Login(req:DevBlogType.Request,res:Response,next:Ne
                     let cookieContent
                     if(exposedUID){
                         cookieContent = {
-                            'uid':exposedUID,email
+                            'uid':exposedUID,
+                            email
                         }
                     } else {
                         const uid = uuidv4().split('-').join('')
@@ -46,27 +47,32 @@ export default async function Login(req:DevBlogType.Request,res:Response,next:Ne
                         }
                         AddTask('adduser',user)
                         cookieContent = {
-                            uid,email
+                            uid,
+                            email
                         }
                     }
                     const {cookieName,cookie,cookieOption} = SetCookie(cookieContent)
                     res.cookie(cookieName,cookie,cookieOption)
                     Logger.success(`[${email}] is logged in`)
-                    return res.end('you are logged in!')
+                    const thisRes = new DevBlogResponse('you are logged in!',null)
+                    HandleResponse(thisRes,res)
                     
                 } else {
                     Logger.info(error.message)
                     Logger.error(error.message)
-                    throw new DevBlogError(400,'bad credential')
+                    const thisRes = new DevBlogResponse('bad credential!',null,400)
+                    HandleResponse(thisRes,res)
                 }
         } else {
             Logger.info(loginInfo.error.message)
             Logger.error(loginInfo.error.message)
-            return next(new DevBlogError(400))
+            const thisRes = new DevBlogResponse('bad credential!',null,400)
+            HandleResponse(thisRes,res)
         }
     }
     catch(err){
         Logger.info(err.message)
         Logger.error(err.message)
+        throw new Error(err)
     }
 }

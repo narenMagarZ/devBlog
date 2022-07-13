@@ -1,4 +1,5 @@
 import { Response} from 'express'
+import Logger from './logger'
 
 
 
@@ -16,7 +17,8 @@ export class DevBlogResponse{
 export function HandleResponse(
     devBlogresponse:DevBlogResponse,
     res:Response){
-
+        Logger.success(`[RESPONSE]: ${String(devBlogresponse)}`)
+        return res.json(devBlogresponse)
 }
 
 

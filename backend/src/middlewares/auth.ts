@@ -10,17 +10,15 @@ export async function AuthenticateRequest(req:DevBlogType.Request,res:Response,n
         const token = req.signedCookies.token as string
         const jwtContent : any = await VerifyJwt(token)
         if(jwtContent instanceof JsonWebTokenError){
-            const response = new DevBlogResponse
-            HandleResponse(response,res)
+            const _res = new DevBlogResponse('no authenticated user',null,400)         
+            HandleResponse(_res,res)
         } else {
             req.uid = jwtContent.uid
             req.email = jwtContent.email
             next(true)
-        }
-        
+        }  
     } 
-    else next()
-
+    else next(true)
 }
 
 
