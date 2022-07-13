@@ -1,7 +1,6 @@
-import {Db, MongoClient,MongoClientOptions} from 'mongodb'
 import Logger from '../../utils/logger'
-
-let db : Db
+import mongoose,{Connection} from 'mongoose'
+let db : Connection
 let connected = false
 export async function connect():Promise<void> {
     const {
@@ -10,23 +9,12 @@ export async function connect():Promise<void> {
         DB_NAME,
         DB_URI
     } = process.env
-    if(!DB_NAME){
+    if(!DB_NAME || !DB_URI){
         throw new Error('No database configuration is provided')
     }
-    const connectOptions : MongoClientOptions = {
-        connectTimeoutMS : 2000,
-        auth : {
-            // username:DB_USERNAME,
-            // password:DB_PASSWORD
-        }
-    }
-    const mongoClient = new MongoClient( DB_URI as string )
     try {
-        await mongoClient.connect()
-        db = mongoClient.db(DB_NAME)
+        db =  mongoose.createConnection(DB_URI as string)
         connected = true
-        // const ans = db.collection('users')
-        // console.log(await ans.findOne({'gmail':'naren@gmail.com'}))
         
     } catch (error:any) {
         Logger.error(error.message)
@@ -38,6 +26,6 @@ export async function connect():Promise<void> {
 
 }
 
-export const getDB = ():Db => db
+export const getDB = ():Connection => db
 export const isDBConnected = ()=> connected
 // db uri = mongodb://[username:password]localhost:27017/dbname
