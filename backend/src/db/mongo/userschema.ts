@@ -1,7 +1,7 @@
 import {Schema,Model} from 'mongoose'
 import * as db from './mongo'
 
-export function User():Model<any>{
+function User():Model<any>{
     const userSchema = new Schema({
         'name' : {
             type:String,
@@ -45,3 +45,4 @@ export function User():Model<any>{
     return user
 }
 
+export const user = User()
