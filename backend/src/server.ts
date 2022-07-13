@@ -15,7 +15,6 @@ async function BootServer(port:number | string){
         await redisClient.connect()
         if(redisClient.isConnected()){
             Logger.success('Connected to the redis')
-
             const redisConnection = redisClient.getRedisConnection() as IORedis
             Logger.info('Initializing the task queue...')
             InitJobQueue(redisConnection)

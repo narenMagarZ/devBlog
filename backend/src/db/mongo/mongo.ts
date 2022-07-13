@@ -1,6 +1,8 @@
 import Logger from '../../utils/logger'
-import mongoose,{Connection} from 'mongoose'
+import mongoose,{Connection, Model} from 'mongoose'
+import {userSchema} from '../mongo/userschema'
 let db : Connection
+let user : Model<any>
 let connected = false
 export async function connect():Promise<void> {
     const {
@@ -14,8 +16,8 @@ export async function connect():Promise<void> {
     }
     try {
         db =  mongoose.createConnection(DB_URI as string)
+        user = db.model('user',userSchema)
         connected = true
-        
     } catch (error:any) {
         Logger.error(error.message)
         Logger.error(
@@ -26,6 +28,7 @@ export async function connect():Promise<void> {
 
 }
 
-export const getDB = ():Connection => db
+export const getDB = () => db
+export const getUser = ()=> user
 export const isDBConnected = ()=> connected
 // db uri = mongodb://[username:password]localhost:27017/dbname

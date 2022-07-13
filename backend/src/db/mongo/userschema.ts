@@ -1,8 +1,6 @@
-import {Schema,Model} from 'mongoose'
+import {Schema} from 'mongoose'
 import * as db from './mongo'
-
-function User():Model<any>{
-    const userSchema = new Schema({
+  export  const userSchema = new Schema({
         'name' : {
             type:String,
             required:true,
@@ -41,8 +39,4 @@ function User():Model<any>{
             }]
         }
     })
-    const user = db.getDB().model('user',userSchema)
-    return user
-}
-
-export const user = User()
+    // export const User = db.getDB().model('user',userSchema)
