@@ -20,7 +20,7 @@ export default async function DevBlog(req:DevBlogType.Request,res:Response,next:
                 We will go into what these terms mean and why they are beneficial characteristics for services on the Web.
                 `
             }
-            return res.end(testcontent)
+            return res.json(testcontent)
         } else {
             res.end('not okay')
         }
