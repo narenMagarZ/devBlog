@@ -30,7 +30,7 @@ export default async function Login(req:DevBlogType.Request,res:Response,next:Ne
                 if(!error){
                     const {email,picture,name} = value
                     const redisConnection = redis.getRedisConnection() as IORedis
-                    const exposedUID = await redisConnection.hget('users',email)
+                    const exposedUID = await redisConnection.hget('user',email)
                     let cookieContent
                     if(exposedUID){
                         cookieContent = {
@@ -53,6 +53,7 @@ export default async function Login(req:DevBlogType.Request,res:Response,next:Ne
                     }
                     const {cookieName,cookie,cookieOption} = SetCookie(cookieContent)
                     res.cookie(cookieName,cookie,cookieOption)
+                    res.setHeader('isauthenticated','true')
                     Logger.success(`[${email}] is logged in`)
                     const thisRes = new DevBlogResponse('you are logged in!',null)
                     HandleResponse(thisRes,res)

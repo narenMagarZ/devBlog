@@ -3,7 +3,7 @@ import { baseApi } from '../../utils/baseurl'
 import { useEffect, useState } from 'react'
 import GoogleLogin from '../../utils/googlelogin'
 export default function Home(){
-    const [isUser,setUser] = useState(false)
+    const [isUser,setUser] = useState(null)
     useEffect(()=>{
         baseApi.get('/').then(res=>{
             console.log(res.headers)
@@ -19,7 +19,7 @@ export default function Home(){
     return(
         <div className='home-wrapper'>
             <div>
-           {!isUser ? <GoogleLogin /> : '' }
+           {isUser === false ? <GoogleLogin /> : '' }
             </div>
         </div>
     )
