@@ -7,9 +7,9 @@ export async function AuthenticateRequest(req:DevBlogType.Request,res:Response,n
     const authenticatedRoutes = ['/profile','/new','/'] 
     const exactReqUrl = req.url.split('/api')[1] 
     if(authenticatedRoutes.includes(exactReqUrl)){
-        const token = req.signedCookies.token as string
-        const jwtContent : any = exactReqUrl !== '/' ? await VerifyJwt(token) : null
-        if(jwtContent instanceof JsonWebTokenError){
+        const token = req.signedCookies.uuid as string
+        const jwtContent : any = await VerifyJwt(token)
+        if(jwtContent instanceof JsonWebTokenError && exactReqUrl !== '/'){
             const _res = new DevBlogResponse('no authenticated user',null,400)         
             HandleResponse(_res,res)
         } else {
