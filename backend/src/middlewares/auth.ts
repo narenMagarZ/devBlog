@@ -13,8 +13,8 @@ export async function AuthenticateRequest(req:DevBlogType.Request,res:Response,n
             const _res = new DevBlogResponse('no authenticated user',null,400)         
             HandleResponse(_res,res)
         } else {
-            req.uid = jwtContent.uid ?? null
-            req.email = jwtContent.email ?? null
+            req.uid = jwtContent ? jwtContent.uid : null
+            req.email = jwtContent ? jwtContent.email : null
             next()
         }  
     } 
