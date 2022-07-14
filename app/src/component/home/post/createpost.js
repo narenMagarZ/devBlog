@@ -9,7 +9,7 @@ let postContent = {
     'content' : '',
     'coverimg' : null,
     'links' : [],
-    'embeddedimg' : ['im1','im2']
+    'embeddedimg' : ['im1','im2'],
 }
 export default function CreatePost(){
     useEffect(()=>{
@@ -185,15 +185,15 @@ function Tag(){
 
 function TextEditorFieldController(){
     const btnType = [
-        {'id':'bold','encloser':'****','context':'Bold','curPosHelper':2},
-        {'id':'italic','encloser':'__','context':'Italic','curPosHelper':1},
-        {'id':'link','encloser':'[](url)','context':'Link','curPosHelper':4},
-        {'id':'ordered list','encloser':'1. ','context':'Ordered list','curPosHelper':0},
-        {'id':'unordered list','encloser':'- ','context':'Unordered list','curPosHelper':0},
-        {'id':'heading','encloser':'## ','context':'Heading','curPosHelper':0},
-        {'id':'quote','encloser':'> ','context':'Quote','curPosHelper':0},
-        {'id':'< >','encloser':'``','context':'Code','curPosHelper':1},
-        {'id':'upload image','encloser':'','context':'Upload image','curPosHelper':0}
+        {'id':'bold','encloser':'****','context':'Bold','curPosHelper':4,'rawVersion':'<b></b>'},
+        {'id':'italic','encloser':'__','context':'Italic','curPosHelper':4,'rawVersion':'<i></i>'},
+        {'id':'link','encloser':'[](url)','context':'Link','curPosHelper':7,'rawVersion':'<Link></Link>'},
+        {'id':'ordered list','encloser':'1. ','context':'Ordered list','curPosHelper':5,'rawVersion':`<ol></ol>`},
+        {'id':'unordered list','encloser':'- ','context':'Unordered list','curPosHelper':5,'rawVersion':'<ul></ul>'},
+        {'id':'heading','encloser':'## ','context':'Heading','curPosHelper':5,'rawVersion':'<h2></h2>'},
+        {'id':'quote','encloser':'> ','context':'Quote','curPosHelper':1,'rawVersion':'""'},
+        {'id':'< >','encloser':'``','context':'Code','curPosHelper':7,'rawVersion':'<code></code>'},
+        {'id':'upload image','encloser':'','context':'Upload image','curPosHelper':0,'rawVersion':'<img src="" alt=""/>'}
     ]
 
     return(
@@ -201,7 +201,15 @@ function TextEditorFieldController(){
             <div id='editor-control-box'>
                 {
                     btnType.map((btn,index)=>{
-                        return <ControllerButton key={index} curPosHelper={btn.curPosHelper} encloser={btn.encloser} context={btn.context} id={btn.id}></ControllerButton>
+                        return <ControllerButton 
+                        key={index} 
+                        curPosHelper={btn.curPosHelper} 
+                        rawVersion = {btn.rawVersion}
+                        encloser={btn.encloser} 
+                        context={btn.context} 
+                        rawStartPoint = {btn.rawStartPoint}
+                        rawEndPoint = {btn.rawEndPoint}
+                        id={btn.id}></ControllerButton>
                     })
                 }
             </div>
@@ -209,26 +217,31 @@ function TextEditorFieldController(){
     )
 }
 
-function ControllerButton({id,encloser,context,curPosHelper}){
+
+// ** Nodejs ** , is the js runtime environment to run the js out of the browser
+// raw version -> <b>Nodejs</b>
+function ControllerButton({
+    id,
+    encloser,
+    context,
+    curPosHelper,
+    rawVersion,
+    rawStartPoint,
+    rawEndPoint}){
 
     const icon =  id !== '< >' ?  id[0].toUpperCase() : "< >"
     function ActivateControlAction(ev){
         const textArea = document.getElementById('text-area')
-        textArea.value = textArea.value + encloser
+        textArea.value = textArea.value + rawVersion
         textArea.selectionStart = textArea.value.length - curPosHelper
-        if(id === 'link'){
-        textArea.selectionEnd = textArea.value.length - 1
-        } else textArea.selectionEnd = textArea.value.length - curPosHelper
-        console.log(textArea.selectionStart)
+        textArea.selectionEnd = textArea.value.length - curPosHelper
         textArea.focus()
     }
     function UnHideBtnDefiner(ev){
-        console.log(ev.target.previousElementSibling)
         const controllerDefiner = ev.target.previousElementSibling
         controllerDefiner.hidden = false
     }
     function HideBtnDefiner(ev){
-        console.log(ev.target.previousElementSibling)
         const controllerDefiner = ev.target.previousElementSibling
         controllerDefiner.hidden = true
     }
@@ -245,19 +258,21 @@ function ControllerButton({id,encloser,context,curPosHelper}){
 
 function TextEditor(){
     function TrackInputKey(ev){
-        const startPos = ev.target.selectionStart
-        const endPos = ev.target.selectionEnd
-        console.log(startPos,endPos,'these are starpos and endpos')
         if(ev.key === 'Enter'){
-            console.log('you just enterd enter')
+        }
+        postContent = {...postContent,'content' : ev.target.value}
+        if(ev.key.length === 1){
+        }
+        if(ev.key === 'Backspace'){
         }
         console.log(ev.target.value)
-        postContent = {...postContent,'content' : ev.target.value}
+   
 
     }
+
     return(
         <div className='text-editor-wrapper'>
-            <textarea onKeyDown={TrackInputKey} placeholder='write your post content here...' id='text-area'></textarea>
+            <textarea  onKeyDown={TrackInputKey} placeholder='write your post content here...' id='text-area'></textarea>
         </div>
     )
 }

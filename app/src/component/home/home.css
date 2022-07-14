@@ -1,0 +1,9 @@
+.article-wrapper {
+    border: var(--border);
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+

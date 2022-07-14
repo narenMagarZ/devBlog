@@ -219,3 +219,14 @@
 #publish-btn:hover{
     background-color: #2055b8;
 }
+#raw-text-area{
+    resize: none;
+    width: 100%;
+    padding: 20px;
+    height: 100%;
+    font-size: 18px;
+    line-height: 30px;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+}
