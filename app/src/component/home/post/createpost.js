@@ -8,8 +8,7 @@ let postContent = {
     'tags' : [],
     'content' : '',
     'coverimg' : null,
-    'links' : [],
-    'embeddedimg' : ['im1','im2'],
+    'embeddedimg' : [],
 }
 export default function CreatePost(){
     useEffect(()=>{
@@ -172,7 +171,6 @@ function Tag(){
 
     useEffect(()=>{
         console.log(tags)
-
     },[tags])
     return(
         <div id='tag-space-wrapper'>
@@ -187,7 +185,7 @@ function TextEditorFieldController(){
     const btnType = [
         {'id':'bold','encloser':'****','context':'Bold','curPosHelper':4,'rawVersion':'<b></b>'},
         {'id':'italic','encloser':'__','context':'Italic','curPosHelper':4,'rawVersion':'<i></i>'},
-        {'id':'link','encloser':'[](url)','context':'Link','curPosHelper':7,'rawVersion':'<Link></Link>'},
+        {'id':'link','encloser':'[](url)','context':'Link','curPosHelper':4,'rawVersion':'<a></a>'},
         {'id':'ordered list','encloser':'1. ','context':'Ordered list','curPosHelper':5,'rawVersion':`<ol></ol>`},
         {'id':'unordered list','encloser':'- ','context':'Unordered list','curPosHelper':5,'rawVersion':'<ul></ul>'},
         {'id':'heading','encloser':'## ','context':'Heading','curPosHelper':5,'rawVersion':'<h2></h2>'},
@@ -218,16 +216,12 @@ function TextEditorFieldController(){
 }
 
 
-// ** Nodejs ** , is the js runtime environment to run the js out of the browser
-// raw version -> <b>Nodejs</b>
 function ControllerButton({
     id,
-    encloser,
     context,
     curPosHelper,
-    rawVersion,
-    rawStartPoint,
-    rawEndPoint}){
+    rawVersion
+    }){
 
     const icon =  id !== '< >' ?  id[0].toUpperCase() : "< >"
     function ActivateControlAction(ev){
@@ -260,14 +254,14 @@ function TextEditor(){
     function TrackInputKey(ev){
         if(ev.key === 'Enter'){
         }
-        postContent = {...postContent,'content' : ev.target.value}
         if(ev.key.length === 1){
         }
         if(ev.key === 'Backspace'){
         }
-        console.log(ev.target.value)
-   
-
+        setTimeout(()=>{
+            postContent = {...postContent,'content' : ev.target.value}
+            console.log(postContent,'this is postcontent')
+        })
     }
 
     return(
