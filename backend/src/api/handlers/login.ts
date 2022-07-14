@@ -39,7 +39,7 @@ export default async function Login(req:DevBlogType.Request,res:Response,next:Ne
                         }
                     } else {
                         const uid = uuidv4().split('-').join('')
-                        const user : DevBlogType.user = {
+                        const user : DevBlogType.User = {
                             email : email,
                             name : name,
                             profile : picture,

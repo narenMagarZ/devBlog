@@ -1,8 +1,10 @@
 import Logger from '../../utils/logger'
 import mongoose,{Connection, Model} from 'mongoose'
 import {userSchema} from '../mongo/userschema'
+import {blogSchema} from './blogschema'
 let db : Connection
 let user : Model<any>
+let blog : Model<any>
 let connected = false
 export async function connect():Promise<void> {
     const {
@@ -17,6 +19,7 @@ export async function connect():Promise<void> {
     try {
         db =  mongoose.createConnection(DB_URI as string)
         user = db.model('user',userSchema)
+        blog = db.model('blog',blogSchema)
         connected = true
     } catch (error:any) {
         Logger.error(error.message)
@@ -31,3 +34,4 @@ export async function connect():Promise<void> {
 export const getDB = () => db
 export const getUser = ()=> user
 export const isDBConnected = ()=> connected
+export const getBlog = ()=> blog
