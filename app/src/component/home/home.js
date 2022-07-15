@@ -15,10 +15,8 @@ export default function Home(){
     const blogReducer = (initialState,{type,paylaod})=>{
         switch(type){
             case "SETBLOGPOST":
-                // const newContent = ExtractLink(paylaod.cont)
                 let blogContent = []
                 for(let i of paylaod){
-                    console.log(i.content)
                     const parsedContent = ExtractLink(i.content)
                     const parsedTag = i.tags.split(',')
                     i = {...i,'content':parsedContent,'tags':parsedTag}

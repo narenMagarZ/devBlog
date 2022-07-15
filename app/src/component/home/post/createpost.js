@@ -253,6 +253,7 @@ function ControllerButton({
 function TextEditor(){
     function TrackInputKey(ev){
         if(ev.key === 'Enter'){
+            // ev.target.value = ev.target.value + '<br/>'
         }
         if(ev.key.length === 1){
         }
@@ -300,6 +301,7 @@ function PublishPost(){
     }
     return(
         <div className='publish-post-btn-wrapper'>
+            
             <button onClick={PushPost} id='publish-btn'>Publish</button>
         </div>
     )

@@ -9,10 +9,9 @@ export default function NewPost(req:DevBlogType.Request,res:Response,next:NextFu
         const postContentSchema = joi.object({
             title:joi.string().required(),
             tags:joi.string().allow(''),
-            content:joi.string().required(),
-            links:joi.string().allow('')
+            content:joi.string().required()
         })
-        const {error,value} = postContentSchema.validate({title:body[0],tags:body[1],content:body[2],links:body[3]})
+        const {error,value} = postContentSchema.validate({title:body[0],tags:body[1],content:body[2]})
         if(!error){
             const {title,tags,content} = value
             let uploadFileInfo = {}

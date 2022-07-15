@@ -1,0 +1,25 @@
+.open-blog-wrapper{
+    border: var(--border);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+.blog-post-wrapper{
+    flex: 5;
+    display: flex;
+
+}
+.blog-post{
+    border: var(--border);
+    flex: 1;
+}
+
+.post-activity-wrapper{
+flex: 2;
+border: var(--border);
+}
+
+.profile-wrapper{
+    flex: 2;
+    border: var(--border);
+}
