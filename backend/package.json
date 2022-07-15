@@ -1,12 +1,12 @@
 {
-  "name": "api",
+  "name": "devblogbackend",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.ts",
   "scripts": {
     "dev": "nodemon -r dotenv/config src/server.ts"
   },
-  "keywords": [],
+  "keywords": ["nodejs","typescript","mongodb"],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -40,7 +40,11 @@
     "winston": "^3.8.1"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.1",
+    "@types/mocha": "^9.1.1",
     "@types/nodemon": "^1.19.1",
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
     "nodemon": "^2.0.19"
   }
 }
