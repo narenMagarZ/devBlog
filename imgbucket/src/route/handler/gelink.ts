@@ -16,6 +16,7 @@ export default function getBucketKey(req:Request,res:Response){
             const baseStorage = resolve(__dirname,'../','../','../','./uploads') as string
             const uploadFileName = uuidv4().split('-').join('') + '.' + fileName + '.' +  fileType.split('/')[1] as string
             const generatedLink = baseStorage + '/' + uploadFileName
+            console.log(generatedLink,uploadFileName)
             res.json({
                 link:generatedLink,
                 status:200
