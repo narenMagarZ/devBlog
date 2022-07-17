@@ -8,9 +8,10 @@ let postContent = {
     'tags' : [],
     'content' : '',
     'coverimg' : null,
-    'embeddedimg' : [],
+    'embeedimg' : [],
 }
 export default function CreatePost(){
+    let coverImgBasicInfo = {}
     useEffect(()=>{
         document.title = "New Post-devBlog"
     },[])
@@ -20,6 +21,19 @@ export default function CreatePost(){
         postContent = {...postContent,'coverimg' : this.files[0]}
         const coverImgContent = URL.createObjectURL(this.files[0])
         const coverImg = document.getElementById('cover-img')
+	console.log(this.files[0])
+	if(this.files[0]){
+		coverImgBasicInfo = {
+			'name':this.files[0].name,
+			'size':this.files[0].size,
+			'type':this.files[0].type
+		}
+		baseApi.post('/getlink',coverImgBasicInfo).then(res=>{
+			console.log(res)
+		}).catch(err=>{
+			console.error(err)
+		})
+	}
         coverImg.src = coverImgContent
         coverImg.hidden = false
         const addCoverImgBtn = document.getElementById('cover-img-picker-btn')
