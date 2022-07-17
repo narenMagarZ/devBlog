@@ -13,10 +13,10 @@ export default function getBucketKey(req:Request,res:Response){
         const {error,value} = reqSchema.validate(req.body)
         if(!error){
             const {fileName,fileSize,fileType} = value
-            // used filesize to store the meta data about the coverimage
             const baseStorage = resolve(__dirname,'../','../','../','./uploads') as string
             const uploadFileName = uuidv4().split('-').join('') + '.' + fileName + '.' +  fileType.split('/')[1] as string
             const generatedLink = baseStorage + '/' + uploadFileName
+            console.log(generatedLink)
             res.json({
                 link:generatedLink,
                 status:200
