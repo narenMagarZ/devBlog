@@ -1,5 +1,6 @@
 import {Request,Response} from 'express'
 import joi from 'joi'
+import { resolve } from 'path'
 import {v4 as uuidv4} from 'uuid'
 export default function getBucketKey(req:Request,res:Response){
     try{
@@ -13,10 +14,12 @@ export default function getBucketKey(req:Request,res:Response){
         if(!error){
             const {fileName,fileSize,fileType} = value
             console.log(fileName,fileSize,fileType)
-            const uploadFileName = uuidv4().split('-').join('') + '.' + fileName + '.' +  fileType.split('/')[1]
-            console.log(uploadFileName)
+            const baseStorage = resolve(__dirname,'../','../','../','./uploads') as string
+            const uploadFileName = uuidv4().split('-').join('') + '.' + fileName + '.' +  fileType.split('/')[1] as string
+            const generatedLink = baseStorage + '/' + uploadFileName
+            console.log(uploadFileName,baseStorage,generatedLink)
             res.json({
-                link:uploadFileName,
+                link:generatedLink,
                 status:200
             })
         } else {
