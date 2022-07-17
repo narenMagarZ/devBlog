@@ -1,5 +1,5 @@
 import express from 'express'
-import getBucketKey from './handler/getbucketkey'
+import getLink from './handler/gelink'
 
 export const router = express.Router()
 
@@ -7,4 +7,4 @@ export const router = express.Router()
 // one for server to server 
 // another for client to server
 
-router.post('/getlink',getBucketKey)
+router.post('/getlink',getLink)
