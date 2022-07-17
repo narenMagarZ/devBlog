@@ -8,3 +8,4 @@ export const router = express.Router()
 // another for client to server
 
 router.post('/getlink',getLink)
+router.post('/uploadcoverimage')
