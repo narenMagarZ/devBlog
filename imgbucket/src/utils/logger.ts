@@ -24,9 +24,11 @@ const coloredFormat = Winston.format.printf((log)=>{
         case "info":
             color = normalColor
             break
+        default :
+            break
         
     }
-    return `${log.timestamp}\t${log.level} : ${log.message}`
+    return `${log.timestamp}\t${color(log.message)}`
 })
 const simpleFormat = Winston.format.printf((log)=>{
     return `${log.timestamp}\t${log.level} : ${log.message}`
@@ -38,8 +40,8 @@ const logger = Winston.createLogger({
     levels:{
         error:0,
         warning:1,
-        success:2,
-        info:3
+        info:2,
+        success:3
     },
     transports: [
         new Winston.transports.File({

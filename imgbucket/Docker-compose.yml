@@ -1,0 +1,6 @@
+version: '2.6.1'
+services:
+  backend:
+    image: node:alpine
+    environment:
+      - PORT=7575
